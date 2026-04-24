@@ -114,6 +114,15 @@ export const projects = [
     url: '#',
     details: ['Editor layout test', 'Kart yoğunluk optimizasyonu', 'Mock içerik akışı'],
   },
+  {
+    id: 'proj-10',
+    name: 'Forge Design System',
+    description: 'Bileşen kütüphanesi, token sistemi ve dokümantasyon altyapısını kapsayan tasarım sistemi konsepti.',
+    tech: ['React', 'Storybook', 'CSS Tokens'],
+    image: 'https://picsum.photos/seed/proj10/800/450',
+    url: '#',
+    details: ['Token tabanlı tema yapısı', 'Bileşen varyasyon matrisi', 'Accessibility audit'],
+  },
 ]
 
 export const contact = [
