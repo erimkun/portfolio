@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "awwwards-animations": {
+      "source": "devmartinese/awwwards-animations-skill",
+      "sourceType": "github",
+      "computedHash": "10574282bd24f42072059efa58cfce6ff3a80347505eb191af55544426fe4c3a"
+    },
+    "awwwards-ui-skills": {
+      "source": "ihlamury/design-skills",
+      "sourceType": "github",
+      "computedHash": "10e497f6aa44ed7907ab69acfcd03ba386bf147d07f9982616282d67a0bd4c7c"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "9e1c8b3103f92fa8092568a44fe64858de7c5c9dc65ce4bea8f168080e889cfd"
+    },
+    "gsap-awwwards-website": {
+      "source": "rebyteai-template/rebyte-skills",
+      "sourceType": "github",
+      "computedHash": "643ca04b17786edb2467e36bef608d156ca1bf5f8b5c5e712cc57987c6bdc60e"
+    }
+  }
+}

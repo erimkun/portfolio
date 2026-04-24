@@ -1,0 +1,124 @@
+export const education = [
+  {
+    id: 'edu-1',
+    year: '2024',
+    institution: 'Kurum Adı',
+    degree: 'Sertifika veya Bölüm',
+    description: 'Kısa açıklama buraya gelecek.',
+  },
+  {
+    id: 'edu-2',
+    year: '2022',
+    institution: 'Kurum Adı 2',
+    degree: 'Sertifika veya Bölüm 2',
+    description: 'Kısa açıklama buraya gelecek.',
+  },
+]
+
+export const experience = [
+  {
+    id: 'exp-1',
+    company: 'Şirket Adı',
+    role: 'Pozisyon / Unvan',
+    period: '2023 — Günümüz',
+    description: 'Görev ve sorumlulukların kısa açıklaması.',
+  },
+  {
+    id: 'exp-2',
+    company: 'Şirket Adı 2',
+    role: 'Pozisyon / Unvan 2',
+    period: '2021 — 2023',
+    description: 'Görev ve sorumlulukların kısa açıklaması.',
+  },
+]
+
+export const projects = [
+  {
+    id: 'proj-1',
+    name: 'Orbit Market Mock',
+    description: 'Canlı filtreleme, mini sepet ve hızlı ödeme adımlarını test eden e-ticaret konsepti.',
+    tech: ['React', 'Zustand', 'Vite'],
+    image: 'https://picsum.photos/seed/proj1/800/450',
+    url: '#',
+    details: ['Kullanıcı akışı prototipi', 'Mock ödeme adımı', 'A/B kart düzenleri'],
+  },
+  {
+    id: 'proj-2',
+    name: 'Noir Studio Landing',
+    description: 'Scroll odaklı kreatif ajans landing sayfası için motion-heavy vitrin çalışması.',
+    tech: ['GSAP', 'CSS', 'Figma'],
+    image: 'https://picsum.photos/seed/proj2/800/450',
+    url: '#',
+    details: ['Hero transition denemeleri', 'Parallax blok düzeni', 'Tipografi varyasyonları'],
+  },
+  {
+    id: 'proj-3',
+    name: 'Pulse Admin Mock',
+    description: 'Analitik panelleri ve alarm akışlarını içeren dashboard arayüz simülasyonu.',
+    tech: ['React', 'Recharts', 'TypeScript'],
+    image: 'https://picsum.photos/seed/proj3/800/450',
+    url: '#',
+    details: ['Widget drag deneyimi', 'Tema switch prototipi', 'Rol bazlı görünüm'],
+  },
+  {
+    id: 'proj-4',
+    name: 'Echo Podcast UI',
+    description: 'Bölüm keşfi, oynatıcı ve koleksiyon davranışlarını inceleyen mobil-first arayüz.',
+    tech: ['React', 'Howler', 'SCSS'],
+    image: 'https://picsum.photos/seed/proj4/800/450',
+    url: '#',
+    details: ['Kart stack player', 'Favori akışı', 'Mock ses dalgası'],
+  },
+  {
+    id: 'proj-5',
+    name: 'Atlas Travel Concept',
+    description: 'Rota kartları ve story tabanlı keşif ekranları için konsept deneyimi.',
+    tech: ['Next.js', 'Framer Motion', 'Mapbox'],
+    image: 'https://picsum.photos/seed/proj5/800/450',
+    url: '#',
+    details: ['Harita + kart eşleşmesi', 'Mikro etkileşim testleri', 'Rezervasyon mock adımı'],
+  },
+  {
+    id: 'proj-6',
+    name: 'Kinetic Portfolio Mock',
+    description: 'WebGL hissi veren ışık, doku ve hover geçişlerini test eden deneysel vitrin.',
+    tech: ['React', 'Canvas', 'GSAP'],
+    image: 'https://picsum.photos/seed/proj6/800/450',
+    url: '#',
+    details: ['Pixel dissolve varyantı', '3D kart geçişi', 'Glow layer denemesi'],
+  },
+  {
+    id: 'proj-7',
+    name: 'Shift CRM Mock',
+    description: 'Pipeline yönetimi ve müşteri kartı detaylarını görselleştiren ürün deneyi.',
+    tech: ['React', 'TanStack Table', 'Tailwind'],
+    image: 'https://picsum.photos/seed/proj7/800/450',
+    url: '#',
+    details: ['Satış adımı kanban', 'Filtre kombinasyonları', 'Mock rapor ekranı'],
+  },
+  {
+    id: 'proj-8',
+    name: 'Frame Shop Mock',
+    description: 'Ürün kişiselleştirme, renk seçimi ve önizleme davranışını sınayan e-commerce demo.',
+    tech: ['React', 'Konva', 'Node.js'],
+    image: 'https://picsum.photos/seed/proj8/800/450',
+    url: '#',
+    details: ['Canlı önizleme alanı', 'Variant kombinleri', 'Mock checkout'],
+  },
+  {
+    id: 'proj-9',
+    name: 'Mono Blog System',
+    description: 'Editör deneyimi, koleksiyon sayfası ve içerik bloklarını test eden blog prototipi.',
+    tech: ['Astro', 'MDX', 'TypeScript'],
+    image: 'https://picsum.photos/seed/proj9/800/450',
+    url: '#',
+    details: ['Editor layout test', 'Kart yoğunluk optimizasyonu', 'Mock içerik akışı'],
+  },
+]
+
+export const contact = [
+  { id: 'linkedin',  label: 'LinkedIn',  url: 'https://linkedin.com/in/KULLANICI_ADI', icon: 'linkedin'  },
+  { id: 'x',         label: 'X',         url: 'https://x.com/KULLANICI_ADI',           icon: 'x'         },
+  { id: 'instagram', label: 'Instagram', url: 'https://instagram.com/KULLANICI_ADI',   icon: 'instagram' },
+  { id: 'gmail',     label: 'Gmail',     url: 'mailto:EPOSTA_ADRESI',                   icon: 'gmail'     },
+]

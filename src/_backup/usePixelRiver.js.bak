@@ -1,0 +1,160 @@
+// src/hooks/usePixelRiver.js
+import { useEffect } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { TRANSITIONS, SECTION_ACCENTS, generatePath, getPathPoint } from '../data/riverConfig'
+
+gsap.registerPlugin(ScrollTrigger)
+
+function lerp(a, b, t) { return a + (b - a) * t }
+
+function buildParticles(n) {
+  return Array.from({ length: n }, (_, i) => ({
+    offset: i / n,                          // evenly distributed along path
+    speed:  0.18 + Math.random() * 0.22,    // individual flow speed (cycles/sec)
+    jx:     (Math.random() - 0.5) * 36,     // lateral spread
+    jy:     (Math.random() - 0.5) * 14,
+    size:   Math.random() < 0.12 ? 2 : 1,
+    alpha:  0.55 + Math.random() * 0.45,
+    branch: i % 4,
+    ph:     Math.random() * Math.PI * 2,    // jitter phase
+  }))
+}
+
+function getAnchorPoint(el, fallbackX, fallbackY, W, H) {
+  if (!el) return { x: fallbackX * W, y: fallbackY * H }
+  const rect = el.getBoundingClientRect()
+  if (rect.width === 0 && rect.height === 0) {
+    return { x: fallbackX * W, y: fallbackY * H }
+  }
+  return {
+    x: rect.left + rect.width * 0.5,
+    y: rect.top + rect.height * 0.5,
+  }
+}
+
+function buildTransitionPaths(transition, anchors, W, H) {
+  const start = getAnchorPoint(anchors.from, transition.sourceNX, 0.20, W, H)
+  const end = getAnchorPoint(anchors.to, transition.targetNX, 0.78, W, H)
+  const branches = transition.branches
+  const dx = Math.abs(end.x - start.x)
+  const spread = branches > 1 ? Math.max(W * 0.18, dx * 0.7) : 0
+
+  return Array.from({ length: branches }, (_, b) => {
+    const offset = branches > 1 ? (b / (branches - 1) - 0.5) * spread : 0
+    return generatePath(start.x, start.y, end.x + offset, end.y, 70 + b * 14)
+  })
+}
+
+export function usePixelRiver(canvasRef, scrollerRef, active) {
+  useEffect(() => {
+    if (!active) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const canvas   = canvasRef.current
+    const scroller = scrollerRef.current
+    if (!canvas || !scroller) return
+
+    const ctx = canvas.getContext('2d')
+    let W = canvas.width  = window.innerWidth
+    let H = canvas.height = window.innerHeight
+
+    let particles = buildParticles(W < 768 ? 320 : 720)
+    const anchorEls = TRANSITIONS.map((tr) => ({
+      from: tr.fromSelector ? scroller.querySelector(tr.fromSelector) : null,
+      to: tr.toSelector ? scroller.querySelector(tr.toSelector) : null,
+    }))
+
+    const onResize = () => {
+      W = canvas.width  = window.innerWidth
+      H = canvas.height = window.innerHeight
+      particles = buildParticles(W < 768 ? 320 : 720)
+    }
+    window.addEventListener('resize', onResize)
+
+    const progValues = TRANSITIONS.map(() => 0)
+    const velValues = TRANSITIONS.map(() => 0)
+
+    const instances = TRANSITIONS.map((tr, i) =>
+      ScrollTrigger.create({
+        trigger: `#section-${tr.toId}`,
+        scroller,
+        start: 'top 95%',
+        end:   'top 5%',
+        scrub: 0.8,
+        onUpdate: self => {
+          progValues[i] = self.progress
+          velValues[i] = Math.abs(self.getVelocity())
+        },
+        onLeaveBack: ()   => { progValues[i] = 0 },
+      })
+    )
+    const refreshId = setTimeout(() => ScrollTrigger.refresh(), 400)
+
+    let raf
+    const loop = () => {
+      raf = requestAnimationFrame(loop)
+      const t = performance.now() * 0.001   // seconds — drives continuous flow
+      ctx.clearRect(0, 0, W, H)
+
+      TRANSITIONS.forEach((tr, i) => {
+        const prog = progValues[i]
+        if (prog <= 0.001 || prog >= 0.999) return
+
+        // Scroll controls river opacity: full at mid-transition, fades at edges
+        const riverVis = Math.sin(prog * Math.PI)
+
+        const fromAcc  = SECTION_ACCENTS[tr.fromIdx]
+        const toAccIdx = tr.fromIdx + 1                     // destination section index
+        const toAcc    = SECTION_ACCENTS[toAccIdx] ?? fromAcc
+        const branchPaths = buildTransitionPaths(tr, anchorEls[i], W, H)
+        const speedBoost = 1 + Math.min(velValues[i] / 2600, 1.5) * 0.85
+
+        const h = Math.round(lerp(fromAcc.h, toAcc.h, prog))
+        const s = Math.round(lerp(fromAcc.s, toAcc.s, prog))
+        const l = Math.round(lerp(fromAcc.l, toAcc.l, prog))
+
+        for (const p of particles) {
+          // Continuous looping flow: each particle cycles 0→1 at its own speed
+          const pt = ((t * p.speed * speedBoost + p.offset) % 1 + 1) % 1
+
+          const bIdx = p.branch % tr.branches
+          const path = branchPaths[bIdx]
+          const pos  = getPathPoint(path, pt)
+
+          const px = pos.x + p.jx * Math.sin(t * 1.8 + p.ph)
+          const py = pos.y + p.jy * Math.sin(t * 1.3 + p.ph + Math.PI * 0.5)
+
+          // Fade particles at path ends so they appear/disappear smoothly
+          const endFade = Math.sin(pt * Math.PI)
+          const a = p.alpha * endFade * riverVis
+
+          if (a < 0.02) continue
+
+          const sz = p.size
+
+          // Soft glow halo
+          ctx.fillStyle = `hsla(${h},${s}%,${l}%,${a * 0.18})`
+          ctx.fillRect(px - sz * 5, py - sz * 5, sz * 10, sz * 10)
+          // Core pixel
+          ctx.fillStyle = `hsla(${h},${s}%,${l + 12}%,${a})`
+          ctx.fillRect(px - sz, py - sz, sz * 2, sz * 2)
+          // Bright center for size-2 particles
+          if (sz >= 2) {
+            ctx.fillStyle = `rgba(255,255,255,${a * 0.7})`
+            ctx.fillRect(px, py, 1, 1)
+          }
+        }
+      })
+    }
+
+    loop()
+
+    return () => {
+      clearTimeout(refreshId)
+      cancelAnimationFrame(raf)
+      instances.forEach(st => st.kill())
+      window.removeEventListener('resize', onResize)
+      ctx.clearRect(0, 0, W, H)
+    }
+  }, [active, canvasRef, scrollerRef])
+}
