@@ -1,16 +1,93 @@
-# React + Vite
+# Erim Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive single-page portfolio built with React, Vite, and GSAP-inspired motion patterns.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project is a custom portfolio experience with:
 
-## React Compiler
+- Lock screen entry flow before revealing the main site shell
+- Full-screen section navigation with snap-like scrolling behavior
+- Layered visual effects (particle canvas + pixel river canvas)
+- Distinct projects mosaic section with clipped tiles and expanded hover details
+- Content-driven sections for about, education, experience, projects, and contact
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- Vite 8
+- GSAP 3
+- ESLint 9
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+```text
+.
+|-- public/
+|-- src/
+|   |-- components/       # UI sections and visual components
+|   |-- data/             # Portfolio content source
+|   |-- hooks/            # Custom behavior hooks
+|   |-- App.jsx
+|   |-- main.jsx
+|   |-- App.css
+|   `-- index.css
+|-- docs/                 # Design and implementation notes
+|-- index.html
+|-- package.json
+`-- vite.config.js
+```
+
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Start development server
+
+```bash
+npm run dev
+```
+
+The app will run on the local Vite server URL shown in terminal output.
+
+## Available Scripts
+
+- `npm run dev`: Start local development server
+- `npm run build`: Create production build in dist/
+- `npm run preview`: Preview production build locally
+- `npm run lint`: Run ESLint checks
+
+## Content Customization
+
+Main editable content is in:
+
+- `src/data/content.js` for education, experience, projects, and contact links
+
+Core shell and section composition lives in:
+
+- `src/components/SiteShell.jsx`
+- `src/components/ProjectsSection.jsx`
+- `src/components/LockScreen.jsx`
+
+## Build and Deploy
+
+Create optimized assets:
+
+```bash
+npm run build
+```
+
+Then deploy the generated dist/ folder to your hosting provider.
+
+## Notes
+
+- docs/superpowers/ contains design specs and implementation plans used during iteration.
+- Backup artifacts live under src/_backup/ for reference.
+
+## License
+
+This repository currently has no explicit license file.
