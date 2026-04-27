@@ -2342,6 +2342,50 @@ body {
   flex-shrink: 0;
 }
 
+.glass-card-img-wrap.glass-card-img-split {
+  --split-top: 61%;
+  --split-bottom: 44%;
+  --split-glow: hsla(200, 100%, 72%, 0.78);
+  display: block;
+  position: relative;
+}
+
+.glass-card-img-wrap.glass-card-img-split::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(
+    calc(var(--split-top) - 0.28%) 0,
+    calc(var(--split-top) + 0.28%) 0,
+    calc(var(--split-bottom) + 0.28%) 100%,
+    calc(var(--split-bottom) - 0.28%) 100%
+  );
+  background: linear-gradient(
+    180deg,
+    transparent,
+    hsla(200, 100%, 70%, 0.36) 20%,
+    var(--split-glow) 50%,
+    hsla(200, 100%, 70%, 0.32) 80%,
+    transparent
+  );
+  box-shadow: 0 0 12px hsla(200, 100%, 70%, 0.7), inset 0 0 4px hsla(200, 100%, 92%, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.glass-card-img-wrap.glass-card-img-split .glass-card-img {
+  position: absolute;
+  inset: 0;
+}
+
+.glass-card-img-wrap.glass-card-img-split .glass-card-img:first-child {
+  clip-path: polygon(0 0, var(--split-top) 0, var(--split-bottom) 100%, 0 100%);
+}
+
+.glass-card-img-wrap.glass-card-img-split .glass-card-img:last-child {
+  clip-path: polygon(var(--split-top) 0, 100% 0, 100% 100%, var(--split-bottom) 100%);
+}
+
 .slider-grid .glass-card:nth-child(n+3) .glass-card-img-wrap {
   aspect-ratio: 16 / 7;
 }

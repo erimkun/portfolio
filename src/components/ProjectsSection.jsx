@@ -167,6 +167,18 @@ export default function ProjectsSection() {
                           />
                         </motion.div>
                       )}
+                      {selected.images && (
+                        <motion.div layout="position" className="glass-card-img-wrap glass-card-img-split">
+                          {selected.images.map((img, idx) => (
+                            <img
+                              key={idx}
+                              className="glass-card-img"
+                              src={img}
+                              alt={`${selected.name} ${idx + 1}`}
+                            />
+                          ))}
+                        </motion.div>
+                      )}
                       <div className="glass-card-body">
                         <h3 className="glass-card-name">{selected.name}</h3>
                         <ul className="glass-card-tech">
@@ -266,6 +278,18 @@ export default function ProjectsSection() {
                                 alt={proj.name}
                                 
                               />
+                            </motion.div>
+                          )}
+                          {proj.images && (
+                            <motion.div layout="position" className="glass-card-img-wrap glass-card-img-split">
+                              {proj.images.map((img, idx) => (
+                                <img
+                                  key={idx}
+                                  className="glass-card-img"
+                                  src={img}
+                                  alt={`${proj.name} ${idx + 1}`}
+                                />
+                              ))}
                             </motion.div>
                           )}
                           <div className="glass-card-body">

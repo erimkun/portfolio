@@ -85,13 +85,13 @@ export default function AboutSection() {
           <div className="photo-frame" data-river-node="about">
             <img
               className="photo-real"
-              src="/erimmmm.png"
+              src="/erimbio.webp"
               alt="Erden Erim"
               draggable="false"
             />
             <img
               className="photo-pixel"
-              src="/erimpixel.png"
+              src="/erimpixel.webp"
               alt=""
               aria-hidden="true"
             />

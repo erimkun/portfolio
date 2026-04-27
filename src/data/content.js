@@ -88,7 +88,7 @@ export const projects = [
     date: 'Kasım 2025',
     description: 'WebXR destekli 360° sanal tur: hotspot, gaze-control ve içerik yönetimi.',
     tech: ['Vanilla JS', 'Three.js', 'WebXR'],
-    image: 'https://picsum.photos/seed/proj3/800/450',
+    images: ['/panotour1.webp', '/panotour2.webp'],
     url: 'https://panotour.vercel.app/',
     details: [
       'Vercel yayını + iteratif sürüm geliştirme',
