@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { projects } from '../data/content'
+import { ParticleNumber, ParticleArrow } from './ParticlePagination'
 
 const PAGE_SIZE = 5
-const PAGES = [projects.slice(0, PAGE_SIZE), projects.slice(PAGE_SIZE, PAGE_SIZE * 2)]
+const PAGES = Array.from({ length: Math.ceil(projects.length / PAGE_SIZE) }, (_, idx) => (
+  projects.slice(idx * PAGE_SIZE, (idx + 1) * PAGE_SIZE)
+))
 
 const pageVariants = {
   enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
@@ -103,7 +106,7 @@ export default function ProjectsSection() {
   const [page, setPage] = useState(0)
   const [direction, setDirection] = useState(1)
   const [selected, setSelected] = useState(null)
-  const currentProjects = PAGES[page]
+  const currentProjects = PAGES[page] ?? PAGES[0] ?? []
 
   const changePage = (newPage) => {
     setDirection(newPage > page ? 1 : -1)
@@ -139,13 +142,12 @@ export default function ProjectsSection() {
                 <motion.div
                   key={`detail-${selected.id}`}
                   className="slider-reveal"
-                  variants={revealVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
+                  exit={{ opacity: 0, y: 12, transition: { duration: 0.24, ease: [0.4, 0, 0.2, 1] } }}
                 >
-                  <motion.div className="slider-reveal-card" variants={revealCardVariants}>
+                  <div className="slider-reveal-card">
                     <motion.a
+                      layout
+                      transition={{ layout: { duration: 0.46, ease: [0.16, 1, 0.3, 1] } }}
                       layoutId={`project-card-${selected.id}`}
                       href={selected.url}
                       className="glass-card glass-card--featured"
@@ -157,13 +159,13 @@ export default function ProjectsSection() {
                       }}
                     >
                       {selected.image && (
-                        <div className="glass-card-img-wrap">
+                        <motion.div layout="position" className="glass-card-img-wrap">
                           <img
                             className="glass-card-img"
                             src={selected.image}
                             alt={selected.name}
                           />
-                        </div>
+                        </motion.div>
                       )}
                       <div className="glass-card-body">
                         <h3 className="glass-card-name">{selected.name}</h3>
@@ -172,7 +174,7 @@ export default function ProjectsSection() {
                         </ul>
                       </div>
                     </motion.a>
-                  </motion.div>
+                  </div>
 
                   <motion.div
                     className="slider-reveal-panel"
@@ -192,6 +194,11 @@ export default function ProjectsSection() {
                     <motion.p className="detail-kicker" variants={copyItemVariants}>
                       // {String(projects.findIndex((p) => p.id === selected.id) + 1).padStart(2, '0')}
                     </motion.p>
+                    {selected.date && (
+                      <motion.p className="detail-date" variants={copyItemVariants}>
+                        {selected.date}
+                      </motion.p>
+                    )}
                     <motion.h3 className="detail-name" variants={copyItemVariants}>{selected.name}</motion.h3>
                     <motion.p className="detail-desc" variants={copyItemVariants}>{selected.description}</motion.p>
                     {selected.details?.length > 0 && (
@@ -252,17 +259,18 @@ export default function ProjectsSection() {
                           transition={{ layout: { duration: 0.46, ease: [0.16, 1, 0.3, 1] } }}
                         >
                           {proj.image && (
-                            <div className="glass-card-img-wrap">
+                            <motion.div layout="position" className="glass-card-img-wrap">
                               <img
                                 className="glass-card-img"
                                 src={proj.image}
                                 alt={proj.name}
-                                loading="lazy"
+                                
                               />
-                            </div>
+                            </motion.div>
                           )}
                           <div className="glass-card-body">
                             <h3 className="glass-card-name">{proj.name}</h3>
+                            {proj.date && <p className="glass-card-date">{proj.date}</p>}
                             <p className="glass-card-desc">{proj.description}</p>
                             <ul className="glass-card-tech">
                               {proj.tech?.map((t) => <li key={t}>{t}</li>)}
@@ -276,34 +284,22 @@ export default function ProjectsSection() {
               </AnimatePresence>
             </div>
 
-            <div className="slider-pagination">
-              <button
-                className="slider-nav-btn"
-                onClick={() => changePage(0)}
-                disabled={page === 0}
-                aria-label="Önceki sayfa"
-              >
-                <ArrowIcon dir={-1} />
-              </button>
-              {PAGES.map((_, i) => (
-                <button
-                  key={i}
-                  className={`slider-page-dot ${page === i ? 'active' : ''}`}
-                  onClick={() => changePage(i)}
-                  aria-label={`Sayfa ${i + 1}`}
-                  aria-current={page === i ? 'true' : undefined}
-                >
-                  <span className="slider-page-dot-label">0{i + 1}</span>
-                </button>
-              ))}
-              <button
-                className="slider-nav-btn"
-                onClick={() => changePage(1)}
-                disabled={page === 1}
-                aria-label="Sonraki sayfa"
-              >
-                <ArrowIcon dir={1} />
-              </button>
+            <div className="particle-pagination-container">
+              {page > 0 && (
+                <div className="particle-arrow-wrapper left">
+                  <ParticleArrow direction="left" onClick={() => changePage(page - 1)} />
+                </div>
+              )}
+
+              {page < PAGES.length - 1 && (
+                <div className="particle-arrow-wrapper right">
+                  <ParticleArrow direction="right" onClick={() => changePage(page + 1)} />
+                </div>
+              )}
+
+              <div className="particle-number-wrapper">
+                <ParticleNumber value={page + 1} />
+              </div>
             </div>
           </div>
         </div>

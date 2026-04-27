@@ -6,6 +6,7 @@ const COLORS = [
   { bg: '#0d0828', grad: '260, 280' },   // Education  — mor-indigo
   { bg: '#1a1208', grad: '35, 45'   },   // Experience — amber
   { bg: '#071a12', grad: '150, 160' },   // Projects   — yeşil
+  { bg: '#061523', grad: '188, 212' },   // Skills     — cyan-blue
   { bg: '#1a0810', grad: '350, 10'  },   // Contact    — kırmızı
 ]
 

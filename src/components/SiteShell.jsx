@@ -6,6 +6,7 @@ import AboutSection from './AboutSection'
 import EducationSection from './EducationSection'
 import ExperienceSection from './ExperienceSection'
 import ProjectsSection from './ProjectsSection'
+import SkillsSection from './SkillsSection'
 import ContactSection from './ContactSection'
 import DotNav from './DotNav'
 import PixelRiver from './PixelRiver'
@@ -17,6 +18,7 @@ const SECTIONS = [
   { id: 'education',  label: 'EDUCATION'  },
   { id: 'experience', label: 'EXPERIENCE' },
   { id: 'projects',   label: 'PROJECTS'   },
+  { id: 'skills',     label: 'SKILLS'     },
   { id: 'contact',    label: 'CONTACT'    },
 ]
 
@@ -43,6 +45,7 @@ export default function SiteShell({ visible, onReset }) {
         <EducationSection />
         <ExperienceSection />
         <ProjectsSection />
+        <SkillsSection />
         <ContactSection />
       </div>
     </div>

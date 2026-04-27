@@ -25,7 +25,7 @@ export default function ContactSection() {
       ref={sectionRef}
       id="section-contact"
       className="portfolio-section contact-section"
-      data-section-idx="5"
+      data-section-idx="6"
     >
       <div className="section-inner contact-inner">
         <header className="section-header">
@@ -45,6 +45,11 @@ export default function ContactSection() {
                 rel="noopener noreferrer"
                 aria-label={item.label}
                 className="contact-icon-link"
+                onClick={(e) => {
+                  if (!item.url || item.url === '#') {
+                    e.preventDefault()
+                  }
+                }}
               >
                 <img
                   src={`/icons/${item.icon}.svg`}

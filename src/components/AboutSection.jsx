@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { about } from '../data/content'
 
 export default function AboutSection() {
   const rootRef = useRef(null)
@@ -84,7 +85,7 @@ export default function AboutSection() {
           <div className="photo-frame" data-river-node="about">
             <img
               className="photo-real"
-              src="https://picsum.photos/seed/erim-portrait/900/1200"
+              src="/erimmmm.png"
               alt="Erden Erim"
               draggable="false"
             />
@@ -113,30 +114,24 @@ export default function AboutSection() {
             <span className="data-tag">// FILE_01</span>
             <h2 className="data-title">
               BIOMETRIC DATA<span className="data-title-sep">:</span>
-              <span className="data-title-name">ERDEN ERİM</span>
+              <span className="data-title-name">{about.name.toUpperCase()}</span>
             </h2>
             <div className="data-underline" />
           </header>
 
           <div className="data-panel">
             <div className="panel-noise" />
-            <p className="data-body">
-              Uzay-zaman sürekliliğinde dijital bir iz: piksel piksellerle kod
-              yazan, gerçekliği yeniden hayal eden bir simyacı. 8-bitlik nostaljiyi
-              kuantum hesaplamanın sınırlarıyla harmanlayan bir tasarım mühendisi.
-              Hem kodda hem de kozmosta düzen arayışında. İstanbul, TR'de konumlu —
-              sonsuzluğa bağlı.
-            </p>
+            <p className="data-body">{about.bio}</p>
           </div>
 
           <dl className="data-stats">
             <div className="stat">
               <dt>STATUS</dt>
-              <dd><i className="stat-dot" /> ACTIVE</dd>
+              <dd><i className="stat-dot" /> {about.status}</dd>
             </div>
             <div className="stat">
               <dt>LOCATION</dt>
-              <dd>ISTANBUL, TR</dd>
+              <dd>{about.location.toUpperCase()}</dd>
             </div>
             <div className="stat">
               <dt>SIGNAL</dt>
@@ -144,9 +139,28 @@ export default function AboutSection() {
             </div>
             <div className="stat">
               <dt>BUILD</dt>
-              <dd>v4.7 — 2026</dd>
+              <dd>{about.build}</dd>
             </div>
           </dl>
+
+          <div className="about-subpanels">
+            <div className="about-subpanel">
+              <p className="about-subpanel-kicker">// ODAK ALANLARI</p>
+              <ul className="about-bullets">
+                {about.highlights.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="about-subpanel">
+              <p className="about-subpanel-kicker">// ELEKTRONİK İŞLER</p>
+              <ul className="about-bullets">
+                {about.hardwareAndTools.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -14,7 +14,8 @@ export const SECTION_ACCENTS = [
   { h: 270, s: 60, l: 78 },  // 2 Education  — mor-indigo
   { h: 40,  s: 70, l: 75 },  // 3 Experience — amber
   { h: 155, s: 60, l: 75 },  // 4 Projects   — yeşil
-  { h: 350, s: 65, l: 78 },  // 5 Contact    — kırmızı
+  { h: 198, s: 66, l: 76 },  // 5 Skills     — cyan-blue
+  { h: 350, s: 65, l: 78 },  // 6 Contact    — kırmızı
 ]
 
 // Sprite = pixel-art silhouette the particles form.
@@ -59,6 +60,14 @@ export const SECTION_SPRITES = {
     sampleStep: 4,
     fit: 0.88,
   },
+  skills: {
+    type: 'text',
+    text: 'SKILLS',
+    font: '900 240px Anton, Impact, sans-serif',
+    anchorSelector: '[data-river-node="skills"]',
+    sampleStep: 4,
+    fit: 0.88,
+  },
   contact: {
     type: 'text',
     text: "LET'S\nCONNECT",
@@ -71,10 +80,10 @@ export const SECTION_SPRITES = {
 
 // Ordered section keys — drives transition pairs.
 export const SECTION_ORDER = [
-  'hero', 'about', 'education', 'experience', 'projects', 'contact',
+  'hero', 'about', 'education', 'experience', 'projects', 'skills', 'contact',
 ]
 
-// One entry per inter-section transition (5 transitions for 6 sections).
+// One entry per inter-section transition.
 // fromKey → toKey : sprite at fromKey's anchor dissolves, particles flow,
 // then reassemble into sprite at toKey's anchor.
 export const TRANSITIONS = SECTION_ORDER.slice(0, -1).map((fromKey, i) => {
