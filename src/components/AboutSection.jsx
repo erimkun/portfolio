@@ -6,6 +6,7 @@ export default function AboutSection() {
   const dustRef = useRef(null)
   const videoRef = useRef(null)
   const [revealed, setRevealed] = useState(false)
+  const videoPlayedRef = useRef(false)
 
   // Reveal (pixel → real photo) while section is in view; dissolve back on leave
   useEffect(() => {
@@ -14,7 +15,20 @@ export default function AboutSection() {
     const io = new IntersectionObserver(
       entries => {
         for (const e of entries) {
-          setRevealed(e.intersectionRatio >= 0.35)
+          const isVisible = e.intersectionRatio >= 0.35;
+          setRevealed(isVisible);
+          
+          if (isVisible && videoRef.current && !videoPlayedRef.current) {
+            videoPlayedRef.current = true;
+            videoRef.current.currentTime = 0;
+            videoRef.current.play().catch(err => console.log('Video play error:', err));
+          } else if (!isVisible) {
+            videoPlayedRef.current = false; // Reset so it plays again when re-entered
+            if (videoRef.current) {
+              videoRef.current.pause();
+              videoRef.current.currentTime = 0;
+            }
+          }
         }
       },
       { threshold: 0.35 }
@@ -93,6 +107,7 @@ export default function AboutSection() {
               ref={videoRef}
               className="photo-real"
               src="/erimvideo.mp4"
+              poster="/erimbio.webp"
               playsInline
               muted
               onEnded={() => {

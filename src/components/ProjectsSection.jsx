@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { projects } from '../data/content'
 import { ParticleNumber, ParticleArrow } from './ParticlePagination'
@@ -106,6 +106,17 @@ export default function ProjectsSection() {
   const [page, setPage] = useState(0)
   const [direction, setDirection] = useState(1)
   const [selected, setSelected] = useState(null)
+  const rootRef = React.useRef(null)
+  
+  // on mobile, when selected changes, scroll the section into view so detail is visible
+  React.useEffect(() => {
+    if (selected && rootRef.current) {
+      setTimeout(() => {
+        rootRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 50)
+    }
+  }, [selected])
+
   const currentProjects = PAGES[page] ?? PAGES[0] ?? []
 
   const changePage = (newPage) => {
@@ -124,6 +135,7 @@ export default function ProjectsSection() {
   return (
     <LayoutGroup id="projects-stage">
       <section
+        ref={rootRef}
         id="section-projects"
         className="portfolio-section projects-section slider-projects"
         data-section-idx="4"

@@ -63,7 +63,8 @@ export function useParticles(canvasRef, active) {
     let raf
 
     const onMove  = e => { mx = e.clientX; my = e.clientY }
-    const onTouch = e => { const t = e.touches[0]; if (t) { mx = t.clientX; my = t.clientY } }
+    // Scroll yaparken sürekli takılmayı ve etkileşime girmeyi engellemek için mobilde pointerı etkisiz hale getiriyoruz
+    const onTouch = e => { } 
     const onResize = () => {
       W = canvas.width  = window.innerWidth
       H = canvas.height = window.innerHeight
