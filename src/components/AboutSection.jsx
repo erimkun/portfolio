@@ -4,6 +4,7 @@ import { about } from '../data/content'
 export default function AboutSection() {
   const rootRef = useRef(null)
   const dustRef = useRef(null)
+  const videoRef = useRef(null)
   const [revealed, setRevealed] = useState(false)
 
   // Reveal (pixel → real photo) while section is in view; dissolve back on leave
@@ -81,13 +82,25 @@ export default function AboutSection() {
     >
       <div className="about-grid">
         {/* ── LEFT: photo ───────────────────────────────────── */}
-        <figure className="about-photo">
+        <figure className="about-photo" onMouseEnter={() => {
+          if (videoRef.current && (videoRef.current.paused || videoRef.current.ended)) {
+            videoRef.current.currentTime = 0;
+            videoRef.current.play().catch(e => console.log('Video play error:', e));
+          }
+        }}>
           <div className="photo-frame" data-river-node="about">
-            <img
+            <video
+              ref={videoRef}
               className="photo-real"
-              src="/erimbio.webp"
-              alt="Erden Erim"
-              draggable="false"
+              src="/erimvideo.mp4"
+              playsInline
+              muted
+              onEnded={() => {
+                if (videoRef.current) {
+                  videoRef.current.currentTime = 0;
+                  videoRef.current.pause();
+                }
+              }}
             />
             <img
               className="photo-pixel"
