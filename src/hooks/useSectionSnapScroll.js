@@ -117,6 +117,8 @@ export function useSectionSnapScroll(scrollerRef, sections) {
     if (!container) return
 
     const onWheel = (event) => {
+      if (window.matchMedia('(max-width: 1024px)').matches) return
+
       if (isAnimatingRef.current) {
         event.preventDefault()
         return
@@ -151,10 +153,12 @@ export function useSectionSnapScroll(scrollerRef, sections) {
     }
 
     const onTouchStart = (event) => {
+      if (window.matchMedia('(max-width: 1024px)').matches) return
       touchStartYRef.current = event.touches[0]?.clientY ?? null
     }
 
     const onTouchEnd = (event) => {
+      if (window.matchMedia('(max-width: 1024px)').matches) return
       if (isAnimatingRef.current) return
 
       const startY = touchStartYRef.current
@@ -177,6 +181,7 @@ export function useSectionSnapScroll(scrollerRef, sections) {
     }
 
     const onScroll = () => {
+      if (window.matchMedia('(max-width: 1024px)').matches) return
       if (isAnimatingRef.current) return
 
       if (settleTimerRef.current) {
