@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 function MenuIcon({ isOpen }) {
   return (
@@ -15,6 +15,8 @@ function MenuIcon({ isOpen }) {
 export default function DotNav({ sections, scrollerRef, onNavigate }) {
   const [active, setActive] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
+  const navRef = useRef(null)
+  const [trackProps, setTrackProps] = useState({ top: 0, height: 0 })
 
   useEffect(() => {
     const container = scrollerRef.current
@@ -40,6 +42,31 @@ export default function DotNav({ sections, scrollerRef, onNavigate }) {
     return () => io.disconnect()
   }, [sections, scrollerRef])
 
+  useEffect(() => {
+    const updateTrack = () => {
+      if (!navRef.current) return;
+      // timeout gives DOM time to render changes in active font size
+      setTimeout(() => {
+        if (!navRef.current) return;
+        const dots = Array.from(navRef.current.querySelectorAll('.side-nav-dot'));
+        if (dots.length > 1) {
+          const first = dots[0];
+          const last = dots[dots.length - 1];
+          const firstCenter = first.offsetTop + (first.offsetHeight / 2);
+          const lastCenter = last.offsetTop + (last.offsetHeight / 2);
+          setTrackProps({
+            top: firstCenter,
+            height: lastCenter - firstCenter
+          });
+        }
+      }, 50);
+    };
+
+    updateTrack();
+    window.addEventListener('resize', updateTrack);
+    return () => window.removeEventListener('resize', updateTrack);
+  }, [sections, isOpen, active]);
+
   const scrollTo = (id) => {
     if (onNavigate) {
       onNavigate(id)
@@ -49,6 +76,8 @@ export default function DotNav({ sections, scrollerRef, onNavigate }) {
     }
     setIsOpen(false)
   }
+
+  const maxIdx = Math.max(1, sections.length - 1);
 
   return (
     <div className={`nav-wrapper ${isOpen ? 'is-open' : ''}`}>
@@ -60,16 +89,22 @@ export default function DotNav({ sections, scrollerRef, onNavigate }) {
         <MenuIcon isOpen={isOpen} />
       </button>
 
-      <nav className="side-nav" aria-hidden={!isOpen}>
+      <nav className="side-nav" aria-hidden={!isOpen} ref={navRef}>
+        <div className="track-line" style={{ top: trackProps.top, height: trackProps.height }}></div>
+        <div className="track-progress" style={{ top: trackProps.top, height: trackProps.height * (active / maxIdx) }}></div>
+        
         {sections.map((s, i) => (
           <button
             key={s.id}
-            className={`side-nav-item${active === i ? ' active' : ''}`}
+            className={`side-nav-item ${active === i ? 'active' : ''}`}
             onClick={() => scrollTo(s.id)}
             aria-label={s.label}
           >
-            <span className="side-nav-num">0{i + 1}</span>
-            <span className="side-nav-label">{s.label}</span>
+            <div className="side-nav-label-wrapper">
+              <span className="side-nav-label">{s.label}</span>
+              {active === i && <span className="side-nav-underline"></span>}
+            </div>
+            <span className="side-nav-dot"></span>
           </button>
         ))}
       </nav>
